@@ -1,0 +1,22 @@
+diff -up pyparted-3.4/src/_pedmodule.c.orig pyparted-3.4/src/_pedmodule.c
+--- pyparted-3.4/src/_pedmodule.c.orig	2011-07-28 11:06:06.400082520 -0400
++++ pyparted-3.4/src/_pedmodule.c	2011-07-28 11:07:11.624100956 -0400
+@@ -492,6 +492,7 @@ PyMODINIT_FUNC init_ped(void) {
+     PyModule_AddIntConstant(m, "PARTITION_APPLE_TV_RECOVERY", PED_PARTITION_APPLE_TV_RECOVERY);
+     PyModule_AddIntConstant(m, "PARTITION_BIOS_GRUB", PED_PARTITION_BIOS_GRUB);
+     PyModule_AddIntConstant(m, "PARTITION_DIAG", PED_PARTITION_DIAG);
++    PyModule_AddIntConstant(m, "PARTITION_LEGACY_BOOT", PED_PARTITION_LEGACY_BOOT);
+ 
+     PyModule_AddIntConstant(m, "DISK_CYLINDER_ALIGNMENT", PED_DISK_CYLINDER_ALIGNMENT);
+ 
+diff -up pyparted-3.4/src/parted/__init__.py.orig pyparted-3.4/src/parted/__init__.py
+--- pyparted-3.4/src/parted/__init__.py.orig	2011-07-28 11:06:06.401120229 -0400
++++ pyparted-3.4/src/parted/__init__.py	2011-07-28 11:07:38.107975538 -0400
+@@ -106,6 +106,7 @@ from _ped import PARTITION_MSFT_RESERVED
+ from _ped import PARTITION_APPLE_TV_RECOVERY
+ from _ped import PARTITION_BIOS_GRUB
+ from _ped import PARTITION_DIAG
++from _ped import PARTITION_LEGACY_BOOT
+ 
+ from _ped import DISK_CYLINDER_ALIGNMENT
+ 

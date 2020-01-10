@@ -3,7 +3,7 @@
 Summary: Python module for GNU parted
 Name:    pyparted
 Version: 3.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 Group:   System Environment/Libraries
 URL:     http://fedorahosted.org/pyparted
@@ -15,10 +15,11 @@ Source0: http://fedorahosted.org/releases/p/y/%{name}/%{name}-%{version}.tar.gz
 # backported.
 Patch0: libparted-version.patch
 Patch1: pyparted-3.4-bz575749.patch
+Patch2: pyparted-3.4-legacy_boot.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: python-devel
-BuildRequires: parted-devel >= 2.1-7
+BuildRequires: parted-devel >= 2.1-14
 BuildRequires: pkgconfig
 BuildRequires: python-decorator
 BuildRequires: autoconf
@@ -35,6 +36,7 @@ partition tables.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__aclocal} -I m4
@@ -62,6 +64,10 @@ touch config.h.in
 %{python_sitearch}/parted
 
 %changelog
+* Thu Jul 28 2011 David Cantrell <dcantrell@redhat.com> - 3.4-3
+- Add PARTITION_LEGACY_BOOT flag introduced in parted-2.1-14
+  Resolves: rhbz#725558
+
 * Wed Jul 07 2010 David Cantrell <dcantrell@redhat.com> - 3.4-2
 - Return PED_EXCEPTION_NO for interactive yes/no exceptions, pass
   appropriate exception to caller
