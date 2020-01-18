@@ -2,35 +2,20 @@ Summary: Python module for GNU parted
 Name:    pyparted
 Epoch:   1
 Version: 3.9
-Release: 15%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 Group:   System Environment/Libraries
-URL:     https://github.com/dcantrell/pyparted
+URL:     http://fedorahosted.org/pyparted
 
-Source0: https://github.com/dcantrell/pyparted/archive/%{name}-%{version}.tar.gz
+Source0: http://fedorahosted.org/releases/p/y/%{name}/%{name}-%{version}.tar.gz
 Patch1: 0001-Do-not-traceback-when-calling-setlocale-875354.patch
 Patch2: 0002-Convert-Constraint-to-__ped.Constraint-in-partition..patch
 Patch3: 0003-Subject-PATCH-pyparted-export-ped_disk_new-functiona.patch
-Patch4: pyparted-3.9-tests-fixes.patch
-Patch5: pyparted-3.9-aarch64.patch
-Patch6: Makefile_enable_coverage_for_testsuite.patch
-Patch7: 0001-Fix-some-tests-under-python-coverage-1057626.patch
-Patch8: 0001-support-ppc64le-in-pyparted.patch
-Patch9: 0004-Add-new-functions-to-extend-exception-handling.patch
-Patch10: 0005-PyInt_FromLong-doesn-t-exist-in-python3-so-always-us.patch
-Patch11: 0006-Remember-to-pass-the-arguments-to-the-exception-hand.patch
-Patch12: 0007-Put-new-_ped-constants-and-functions-into-the-parted.patch
-Patch13: pyparted-3.9-null-dereference.patch
-Patch14: pyparted-3.9-clang-warning.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(id -u -n)
 BuildRequires: python-devel
 BuildRequires: parted-devel >= 3.1
 BuildRequires: pkgconfig
-BuildRequires: e2fsprogs
-%ifnarch s390 s390x
-BuildRequires: python-coverage
-%endif
 
 %description
 Python module for the parted library.  It is used for manipulating
@@ -41,25 +26,9 @@ partition tables.
 %patch1 -p 1
 %patch2 -p 1
 %patch3 -p 1
-%patch4 -p 1
-%patch5 -p 1
-%ifnarch s390 s390x
-%patch6 -p 1
-%endif
-%patch7 -p 1
-%patch8 -p 1
-%patch9 -p 1
-%patch10 -p 1
-%patch11 -p 1
-%patch12 -p 1
-%patch13 -p 1
-%patch14 -p 1
 
 %build
 make %{?_smp_mflags}
-
-%check
-make test
 
 %install
 rm -rf %{buildroot}
@@ -76,55 +45,6 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}-%{version}-*.egg-info
 
 %changelog
-* Fri Jan 12 2018 David Cantrell <dcantrell@redhat.com> - 1:3.9-15
-- Fix a number Coverity bugs in the _ped module source
-  Resolves: rhbz#1534014
-
-* Fri Oct 20 2017 David Cantrell <dcantrell@redhat.com> - 1:3.9-14
-- Update URLs to point to github.com since that's where upstream lives
-  these days
-  Resolves: rhbz#1502389
-
-* Tue Jun 23 2015 David Cantrell <dcantrell@redhat.com> - 1:3.9-13
-- Rebuild
-  Resolves: rhbz#1188163
-
-* Thu Jun 11 2015 Brian C. Lane <bcl@redhat.com> - 1:3.9-12
-- Backport support for register_exn_handler (#1188163)
-  Related: rhbz#1188163
-
-* Tue Aug 19 2014 David Cantrell <dcantrell@redhat.com> - 1:3.9-11
-- Fix invalid rpm changelog entries
-  Related: rhbz#1125656
-
-* Tue Aug 19 2014 David Cantrell <dcantrell@redhat.com> - 1:3.9-10
-- Add disklabel support for ppc64le systems
-  Resolves: rhbz#1125656
-
-* Tue Aug 19 2014 David Cantrell <dcantrell@redhat.com> - 1:3.9-9
-- Disable python-coverage tests on s390x
-  Related: rhbz#1057626
-- Fix python-coverage tests (some disabled that are not working)
-  Resolves: rhbz#1057626
-
-* Tue Feb 18 2014 David Cantrell <dcantrell@redhat.com> - 1:3.9-8
-- Enable running test suite through python-coverage
-  Resolves: rhbz#1057626
-
-* Thu Feb 06 2014 David Cantrell <dcantrell@redhat.com> - 1:3.9-7
-- Add disklabel support for aarch64 systems
-  Resolves: rhbz#1060376
-
-* Tue Jan 28 2014 Daniel Mach <dmach@redhat.com> - 1:3.9-6
-- Mass rebuild 2014-01-24
-
-* Tue Jan 21 2014 David Cantrell <dcantrell@redhat.com> - 1:3.9-5
-- Run test suite from the %%check spec file section
-  Resolves: rhbz#1025238
-
-* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1:3.9-4
-- Mass rebuild 2013-12-27
-
 * Mon Jun 24 2013 Chris Lumens <clumens@redhat.com> 3.9-3
 - Fix a bunch of unicode-related tracebacks during installation.
 
@@ -300,7 +220,7 @@ rm -rf %{buildroot}
 * Mon Mar 23 2009 David Cantrell <dcantrell@redhat.com> - 2.0.9-1
 - Upgrade to pyparted-2.0.9
 
-* Fri Mar 20 2009 David Cantrell <dcantrell@redhat.com> - 2.0.8-1
+* Thu Mar 20 2009 David Cantrell <dcantrell@redhat.com> - 2.0.8-1
 - Upgrade to pyparted-2.0.8
 
 * Thu Mar 19 2009 David Cantrell <dcantrell@redhat.com> - 2.0.7-1
@@ -356,7 +276,7 @@ rm -rf %{buildroot}
 * Mon Apr 23 2007 David Cantrell <dcantrell@redhat.com> - 1.8.6-2
 - Ensure build env CFLAGS are included (#226337)
 
-* Thu Apr 19 2007 David Cantrell <dcantrell@redhat.com> - 1.8.6-1
+* Fri Apr 19 2007 David Cantrell <dcantrell@redhat.com> - 1.8.6-1
 - Merge review (#226337)
 
 * Tue Mar 20 2007 David Cantrell <dcantrell@redhat.com> - 1.8.5-4
