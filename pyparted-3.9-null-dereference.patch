@@ -1,0 +1,16 @@
+diff -up pyparted-3.9/src/pydisk.c.orig pyparted-3.9/src/pydisk.c
+--- pyparted-3.9/src/pydisk.c.orig	2018-01-12 13:47:27.488464829 -0500
++++ pyparted-3.9/src/pydisk.c	2018-01-12 13:47:04.129550934 -0500
+@@ -209,7 +209,11 @@ int _ped_Partition_init(_ped_Partition *
+                 PyErr_SetString(PartitionException, partedExnMessage);
+             }
+         } else {
+-            PyErr_Format(PartitionException, "Could not create new partition on device %s", disk->dev->path);
++            if (disk == NULL) {
++               PyErr_Format(PartitionException, "Could not create new partition");
++            } else {
++                PyErr_Format(PartitionException, "Could not create new partition on device %s", disk->dev->path);
++            }
+         }
+ 
+         self->disk = self->fs_type = NULL;

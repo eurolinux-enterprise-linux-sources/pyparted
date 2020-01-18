@@ -2,12 +2,12 @@ Summary: Python module for GNU parted
 Name:    pyparted
 Epoch:   1
 Version: 3.9
-Release: 13%{?dist}
+Release: 15%{?dist}
 License: GPLv2+
 Group:   System Environment/Libraries
-URL:     http://fedorahosted.org/pyparted
+URL:     https://github.com/dcantrell/pyparted
 
-Source0: http://fedorahosted.org/releases/p/y/%{name}/%{name}-%{version}.tar.gz
+Source0: https://github.com/dcantrell/pyparted/archive/%{name}-%{version}.tar.gz
 Patch1: 0001-Do-not-traceback-when-calling-setlocale-875354.patch
 Patch2: 0002-Convert-Constraint-to-__ped.Constraint-in-partition..patch
 Patch3: 0003-Subject-PATCH-pyparted-export-ped_disk_new-functiona.patch
@@ -20,7 +20,8 @@ Patch9: 0004-Add-new-functions-to-extend-exception-handling.patch
 Patch10: 0005-PyInt_FromLong-doesn-t-exist-in-python3-so-always-us.patch
 Patch11: 0006-Remember-to-pass-the-arguments-to-the-exception-hand.patch
 Patch12: 0007-Put-new-_ped-constants-and-functions-into-the-parted.patch
-
+Patch13: pyparted-3.9-null-dereference.patch
+Patch14: pyparted-3.9-clang-warning.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(id -u -n)
 BuildRequires: python-devel
@@ -51,6 +52,8 @@ partition tables.
 %patch10 -p 1
 %patch11 -p 1
 %patch12 -p 1
+%patch13 -p 1
+%patch14 -p 1
 
 %build
 make %{?_smp_mflags}
@@ -73,6 +76,15 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}-%{version}-*.egg-info
 
 %changelog
+* Fri Jan 12 2018 David Cantrell <dcantrell@redhat.com> - 1:3.9-15
+- Fix a number Coverity bugs in the _ped module source
+  Resolves: rhbz#1534014
+
+* Fri Oct 20 2017 David Cantrell <dcantrell@redhat.com> - 1:3.9-14
+- Update URLs to point to github.com since that's where upstream lives
+  these days
+  Resolves: rhbz#1502389
+
 * Tue Jun 23 2015 David Cantrell <dcantrell@redhat.com> - 1:3.9-13
 - Rebuild
   Resolves: rhbz#1188163
