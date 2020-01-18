@@ -2,7 +2,7 @@ Summary: Python module for GNU parted
 Name:    pyparted
 Epoch:   1
 Version: 3.9
-Release: 3%{?dist}
+Release: 7%{?dist}
 License: GPLv2+
 Group:   System Environment/Libraries
 URL:     http://fedorahosted.org/pyparted
@@ -11,11 +11,14 @@ Source0: http://fedorahosted.org/releases/p/y/%{name}/%{name}-%{version}.tar.gz
 Patch1: 0001-Do-not-traceback-when-calling-setlocale-875354.patch
 Patch2: 0002-Convert-Constraint-to-__ped.Constraint-in-partition..patch
 Patch3: 0003-Subject-PATCH-pyparted-export-ped_disk_new-functiona.patch
+Patch4: pyparted-3.9-tests-fixes.patch
+Patch5: pyparted-3.9-aarch64.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(id -u -n)
 BuildRequires: python-devel
 BuildRequires: parted-devel >= 3.1
 BuildRequires: pkgconfig
+BuildRequires: e2fsprogs
 
 %description
 Python module for the parted library.  It is used for manipulating
@@ -26,9 +29,14 @@ partition tables.
 %patch1 -p 1
 %patch2 -p 1
 %patch3 -p 1
+%patch4 -p 1
+%patch5 -p 1
 
 %build
 make %{?_smp_mflags}
+
+%check
+make test
 
 %install
 rm -rf %{buildroot}
@@ -45,6 +53,20 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}-%{version}-*.egg-info
 
 %changelog
+* Thu Feb 06 2014 David Cantrell <dcantrell@redhat.com> - 1:3.9-7
+- Add disklabel support for aarch64 systems
+  Resolves: rhbz#1060376
+
+* Tue Jan 28 2014 Daniel Mach <dmach@redhat.com> - 1:3.9-6
+- Mass rebuild 2014-01-24
+
+* Tue Jan 21 2014 David Cantrell <dcantrell@redhat.com> - 1:3.9-5
+- Run test suite from the %%check spec file section
+  Resolves: rhbz#1025238
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1:3.9-4
+- Mass rebuild 2013-12-27
+
 * Mon Jun 24 2013 Chris Lumens <clumens@redhat.com> 3.9-3
 - Fix a bunch of unicode-related tracebacks during installation.
 
